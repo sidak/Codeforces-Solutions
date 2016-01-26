@@ -14,7 +14,7 @@ int main(){
 	
 	vector< pair<int, int> > ans;
 	int k =0;
-	unordered_map<int, bool> hmap;
+	map<int, bool> hmap;
 	int st = 1;
 	for(int i=1; i<=n; i++){
 		if(hmap.find(arr[i-1])!=hmap.end()){
@@ -23,7 +23,7 @@ int main(){
 			k++;
 			st = r+1;
 			ans.push_back(make_pair(l,r));
-			hmap.clear();
+				hmap.clear();
 		}
 		else{
 			hmap[arr[i-1]] = true;
