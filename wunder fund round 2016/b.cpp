@@ -62,6 +62,7 @@ void solve(){
 #else
   #define DEBUG(X) (void)0
 #endif
+int arr[60][60];
 int main(){
 	iOS;
 	//std::ios::sync_with_stdio(false);  
@@ -70,14 +71,39 @@ int main(){
 	// instead of min() use max() to get the maximum value in the previous case
 	//scanf returns the number of items succesfully converted  or EOF on error
 	
-	int t = 1;
-    //int t;
-    //cin>>t;
-    while(t--){
-		
-        solve();
-    }
-
+	int n;
+	cin>>n;
+	
+	for(int i=0; i<n; i++){
+		for(int j=0; j<n; j++){
+			cin>>arr[i][j];
+		}
+	}
+	vector<int> ans;
+	for(int i=0; i<n; i++){
+		set<int> st;
+		for(int j=0; j<n; j++){
+			st.insert(arr[i][j]);
+		}
+		//cout<<"size of st"<<st.size()<<endl;
+		if(st.size()==n){
+			//cout<<i<<endl;
+			for(int j=0; j<n; j++){
+				if(arr[i][j]==0){
+					ans.pb(n);
+				}
+				else{
+					ans.pb(arr[i][j]);
+				}
+			}
+			break;
+		}
+		st.clear();
+	}
+	for(int i=0; i<ans.size(); i++){
+		cout<<ans[i]<<" ";
+	}
+	cout<<endl;
 }
 
 // int(1e6) is equivalent to 10^6

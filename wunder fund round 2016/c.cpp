@@ -62,6 +62,11 @@ void solve(){
 #else
   #define DEBUG(X) (void)0
 #endif
+bool isCollinear(pll a, pll b, pll c){
+	ll area = a.F*(b.S-c.S) + b.F*(c.S-a.S) + c.F*(a.S-b.S);
+	if(area==0)return true;
+	else return false;
+}
 int main(){
 	iOS;
 	//std::ios::sync_with_stdio(false);  
@@ -70,13 +75,25 @@ int main(){
 	// instead of min() use max() to get the maximum value in the previous case
 	//scanf returns the number of items succesfully converted  or EOF on error
 	
-	int t = 1;
-    //int t;
-    //cin>>t;
-    while(t--){
-		
-        solve();
-    }
+	int n;
+	cin>>n;
+	vector< pair<ll, ll> > pts;
+	map < pair<ll, ll>, ll> hmap;
+	for(int i=1; i<=n; i++){
+		ll x, y;
+		cin>>x>>y;
+		pts.pb(mp(x,y));
+		hmap[mp(x,y)] = i;
+	}
+	sort(pts.begin(), pts.end());
+	pll pt1 = pts[0];
+	pll pt2 = pts[1];
+	for(int i=2; i<n; i++){
+		if(!isCollinear(pt1, pt2, pts[i])){
+			cout<<hmap[pt1]<<" "<<hmap[pt2]<<" "<<(hmap[pts[i]])<<endl;
+			break;
+		}
+	}
 
 }
 

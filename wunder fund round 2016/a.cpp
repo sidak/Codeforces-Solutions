@@ -69,15 +69,39 @@ int main(){
 	//cout << "Minimum value for long long int(or other datatype): " << std::numeric_limits<long long int>::min() << '\n';
 	// instead of min() use max() to get the maximum value in the previous case
 	//scanf returns the number of items succesfully converted  or EOF on error
+	int n;
+	cin>>n;
+	stack<int> st;
+	for(int i=31; i>=0; i--){
+		if(n&(1<<i)){
+			st.push(i+1);
+		}
+	}
 	
-	int t = 1;
-    //int t;
-    //cin>>t;
-    while(t--){
+	while(!st.empty() && st.size()>1){
+		int x = st.top();
+		st.pop();
+		if(x==st.top()){
+			int y = x+1;
+			st.pop();
+			st.push(y);
+		}
+		else{
+			st.push(x);
+			break;
+		}
+	}	
+	
+	vector<int> vec;
+	while(!st.empty()){
+		vec.pb(st.top());
+		st.pop();
+	}
+	for(int i=vec.size()-1; i>=0; i--){
+		cout<<vec[i]<<" ";
 		
-        solve();
-    }
-
+	}
+	cout<<endl;
 }
 
 // int(1e6) is equivalent to 10^6
