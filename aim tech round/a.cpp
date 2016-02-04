@@ -70,13 +70,13 @@ int main(){
 	// instead of min() use max() to get the maximum value in the previous case
 	//scanf returns the number of items succesfully converted  or EOF on error
 	
-	int t = 1;
-    //int t;
-    //cin>>t;
-    while(t--){
-		
-        solve();
-    }
+	int d,l,v1,v2;
+	cin>>d>>l>>v1>>v2;
+	
+	double num = l-d;
+	double den = v1+v2;
+	cout.precision(6);
+	cout<<fixed<<(num/den)<<endl;
 
 }
 

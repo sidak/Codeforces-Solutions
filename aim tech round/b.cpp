@@ -70,14 +70,31 @@ int main(){
 	// instead of min() use max() to get the maximum value in the previous case
 	//scanf returns the number of items succesfully converted  or EOF on error
 	
-	int t = 1;
-    //int t;
-    //cin>>t;
-    while(t--){
+	ll n;
+	cin>>n;
+	vector<ll> vec;
+	for(ll i=0; i<n; i++){
+		ll x;
+		cin>>x;
+		vec.pb(x);
+	}
+	sort(vec.begin(), vec.end());
+	ll ans =0;
+	ans+= vec[vec.size()-1];
+	ll prev = vec[vec.size()-1]-1;
+	for(int i=vec.size()-2; i>=0 && prev>0; i--){
+		ll mn;
+		if(vec[i]<prev){
+			mn = vec[i];
+		}
+		else{
+			mn = prev;
+		}
+		ans += mn;
+		prev = mn-1;
 		
-        solve();
-    }
-
+	}
+	cout<<ans<<endl;
 }
 
 // int(1e6) is equivalent to 10^6
