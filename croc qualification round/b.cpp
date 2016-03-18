@@ -35,6 +35,8 @@ typedef vector<pair<int,int> > vpii;
 typedef vector<long long> vl;
 typedef pair<long long,long long> pll;
 typedef vector<pair<long long,long long> > vpll;
+typedef queue<pair<long long,long long> > qpll;
+
 typedef vector<string> vs;
 typedef long double ld;
 typedef  long long ll;
@@ -70,11 +72,65 @@ int main(){
 	// instead of min() use max() to get the maximum value in the previous case
 	//scanf returns the number of items succesfully converted  or EOF on error
 	
-	cout<<26<<endl;
-	for(int i=0; i<26; i++){
-		cout<<"1000000000 ";
+	ll n, b;
+	//scanf("%lld %lld", &n, &b);
+	cin>>n>>b;
+	vpll reqs;
+	qpll save;
+	queue<ll> indices;
+	for(ll i=0; i<n; i++){
+		ll t, d;
+		//scanf("%lld %lld", &t, &d);
+		cin>>t>>d;
+		reqs.pb(mp(t,d));
+	}
+	vector<ll> ans(n,0);
+	ll tm =0;
+	ll inq = 0;
+	// it is guaranteed that t_i < t_i-1 (storing a single element may turn out to be sufficient) 
+	// we will need one more queue in which the req are stored until capacity  
+	// otherwise reject them if capacity exceeded
+	// when the new entries in reqs have start time later than the time of ending of the current running query
+	// then get an element from the queue, insert the incoming one (we can always insert the first req after the current query's completion)
+	// update prev req start time and end time 
+	ll idx = 0;
+
+	while(!save.empty() || idx<n ){
+
+		if(save.empty() && idx<n){
+			save.push(reqs[idx]);
+			tm = reqs[idx].F;
+			indices.push(idx);
+			inq ++;
+			idx++;
+		}
+
+		pll svreq = save.front();
+		tm += svreq.S;
+		ans[indices.front()] = tm;
+		indices.pop();
+		save.pop();
+		inq --;
+
+		while(idx<n && reqs[idx].F<tm){
+			if(inq<b){
+				save.push(reqs[idx]);
+				indices.push(idx);
+				inq++;
+			}
+			else{
+				ans[idx] = -1;
+			}
+			idx++;
+		}
+
+	}
+
+	for(int i=0; i<ans.size();i++){
+		cout<<ans[i]<<" ";
 	}
 	cout<<endl;
+
 
 }
 
