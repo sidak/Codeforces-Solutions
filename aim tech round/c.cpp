@@ -70,14 +70,47 @@ int main(){
 	// instead of min() use max() to get the maximum value in the previous case
 	//scanf returns the number of items succesfully converted  or EOF on error
 	
-	int t = 1;
-    //int t;
-    //cin>>t;
-    while(t--){
-		
-        solve();
-    }
-
+	int n,m;
+	cin>>n>>m;
+	// remove self things
+	vector < vector<int> > adj (n, vector<int>(m,0) );
+	for(int i=0; i<m; i++){
+		int x, y;
+		cin>>x>>y;
+		adj[x-1][y-1]=1;
+		adj[y-1][x-1]=1;
+	}
+	
+	map<int,int> b;
+	for(int i=0; i<n; i++){
+		int ct =0;
+		for(int j=0; j<n; j++){
+			if(adj[i][j]==1)ct++;
+		}
+		if(ct==(n-1)){
+			b[i]=1;
+		}
+	}
+	
+	set<int> u, v;
+	for(int i=0; i<n; i++){
+		for(int j=i+1; j<n; j++){
+			if(adj[i][j]==1){
+				if(b.find(i)==b.end() && b.find(j) == b.end()){
+					u.insert(i);
+					v.insert(j);
+				}
+			}
+		}
+	}
+	vector<int> vec;
+	auto it=std::set_intersection (u.begin(), u.end(), v.begin(), v.end(), vec.begin());
+                                               // 10 20 0  0  0  0  0  0  0  0
+	//v.resize(it-v.begin());                      // 10 20
+	if(vec.size()>0)cout<<"No"<<endl;
+	else cout<<"Yes"<<endl;
+	
+	
 }
 
 // int(1e6) is equivalent to 10^6
