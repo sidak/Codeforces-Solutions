@@ -78,7 +78,7 @@ int main(){
 
 	string left;
 	left.pb(str[0]);
-	for(i=(n-1); i>=1; i--){
+	for(int i=(n-1); i>=1; i--){
 		left.pb(str[i]);
 	}
 
@@ -91,6 +91,11 @@ int main(){
 		origTime += b;
 	}
 
+	if(origTime>t){
+		cout<<0<<endl;
+		return 0;
+	}
+
 	leftTime.pb(origTime);
 	for(int i=1; i<n; i++){
 		int tm = leftTime[i-1];
@@ -100,7 +105,13 @@ int main(){
 		}
 		leftTime.pb(tm);
 	}
-
+	/*cout<<"left times are "<<endl;
+	for(int i=0; i<leftTime.size(); i++){
+		cout<<leftTime[i]<<" "<<endl;
+	}
+	cout<<"right times are "<<endl;
+	*/
+	
 	rightTime.pb(origTime);
 	for(int i=1; i<n; i++){
 		int tm = rightTime[i-1];
@@ -108,17 +119,24 @@ int main(){
 		if(right[i]=='w'){
 			tm += b;
 		}
-		leftTime.pb(tm);
+		rightTime.pb(tm);
 	}
-
+	/*
+	for(int i=0; i<rightTime.size(); i++){
+		cout<<rightTime[i]<<" "<<endl;
+	}
+	*/
+	//cout<<"left and turn back\n";
 	// go left and then reiterate again in right direction
 	int ans = 0;
 	for(int i = 0; i<n; i++){
+		//cout<<"i is "<<i<<endl; 
 		if(leftTime[i] > t){
 			break;
 		}
-
+		
 		ans = max(ans, i +1);
+		//cout<<"ans is "<<ans<<endl;
 
 		int timeLeft = t - leftTime[i] - i*a;
 		int first = 1;
@@ -126,7 +144,7 @@ int main(){
 		int idx = -1;
 
 		while(first<=last){
-			int mid = (first + list)/2;
+			int mid = (first + last)/2;
 			if((rightTime[mid]-rightTime[0]) <= timeLeft){
 				first = mid +1;
 				idx = mid;
@@ -136,18 +154,23 @@ int main(){
 			}
 		}
 		if(idx!=-1){
+			//cout<<"idx is "<<idx<<endl;
 			ans = max(ans, idx + i +1);
+			//cout<<"ans is "<<ans<<endl;
+			
 		}
 	}
 
-
+	//cout<<"right and turn back\n";
 	// go right and then reiterate again in left direction
 	for(int i = 0; i<n; i++){
+		//cout<<"i is "<<i<<endl;
 		if(rightTime[i] > t){
 			break;
 		}
-
+		
 		ans = max(ans, i +1);
+		//cout<<"ans is "<<ans<<endl;
 
 		int timeLeft = t - rightTime[i] - i*a;
 		int first = 1;
@@ -155,7 +178,7 @@ int main(){
 		int idx = -1;
 
 		while(first<=last){
-			int mid = (first + list)/2;
+			int mid = (first + last)/2;
 			if((leftTime[mid]-leftTime[0]) <= timeLeft){
 				first = mid +1;
 				idx = mid;
@@ -165,7 +188,9 @@ int main(){
 			}
 		}
 		if(idx!=-1){
+			//cout<<"idx is "<<idx<<endl;
 			ans = max(ans, idx + i +1);
+			//cout<<"ans is "<<ans<<endl;
 		}
 	}
 
